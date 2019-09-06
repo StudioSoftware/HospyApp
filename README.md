@@ -1,2 +1,2 @@
-# HospyApp
-Odoo modules for HOSPY APP
+# HOSPY APP
+## Hospitalization module for odoo framework
