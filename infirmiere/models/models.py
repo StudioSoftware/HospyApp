@@ -3,9 +3,9 @@
 from odoo import models, fields, api
 
 class assure(models.Model):
-	_name = 'hospy.assure'
+    _name = 'hospy.assure'
 
-	name = fields.Char(String='Nom Patient')
+    name = fields.Char(String='Nom Patient')
 
 class infirmiere(models.Model):
     _name = 'infirmiere.infirmiere'

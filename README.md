@@ -1,2 +1,6 @@
 # HOSPY APP
-## Hospitalization module for odoo framework
+
+![alt text](icon.png "Logo Title Text 1")
+
+
+##### Hospitalization module for odoo framework
