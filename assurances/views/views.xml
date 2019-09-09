@@ -16,6 +16,7 @@
           <field name="email" type="email" widget="email" />
           <field name="region" />
           <field name="image" widget="image" class="oe_avatar" />
+          <field name="partner_id"/>
         </form>
       </field>
     </record>

@@ -3,8 +3,15 @@
 from odoo import models, fields, api
 
 
+class Patient(models.Model):
+    _inherit = 'res.partner'
+    customer = fields.Boolean(Default=True)
+
+
 class assurances(models.Model):
     _name = 'assurances.assurances'
+
+    partner_id = fields.Many2one('Patient')
 
     name = fields.Char(
         string="Nom assurance",
@@ -51,6 +58,7 @@ class assurances(models.Model):
     _sql_constraints = [
         ('name_uniq', 'UNIQUE(name)', "Ce nom existe deja dans la plateforme")
     ]
+
     # value = fields.Integer()
     # value2 = fields.Float(compute="_value_pc", store=True)
     # description = fields.Text()

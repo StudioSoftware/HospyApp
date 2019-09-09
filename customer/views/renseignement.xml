@@ -1,0 +1,24 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="renseignement.list">
+            <field name="name">customer list</field>
+            <field name="model">customer.renseignement</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="date" />
+                    <field name="motif" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="renseignement.action_window">
+      <field name="name">customer window</field>
+      <field name="res_model">customer.renseignement</field>
+        <field name="view_type" >tree</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    </data>
+</odoo>
