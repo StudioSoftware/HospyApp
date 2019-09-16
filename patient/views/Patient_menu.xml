@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="patient_root" name="Gestion des Patients" sequence="10" web_icon="patient,static/description/icon.png" />
+    <menuitem id="patient_patient_root" name="Patient" parent="patient_root" sequence="10" />
+    <menuitem id="patient_patient" name="Patient" parent="patient_root" sequence="10" action="patient_action" />
+
+</odoo>

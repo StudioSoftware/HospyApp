@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <!-- list view of patient -->
+    <record id="patient_view_tree" model="ir.ui.view">
+      <field name="name">medical.patient.tree</field>
+      <field name="model">medical.patient</field>
+      <field name="arch" type="xml">
+        <tree string="Patients">
+          <field name="identification_code" />
+          <field name="name" />
+          <field name="function"/>
+          <field name="phone"/>
+          <field name="age" />
+          <field name="gender" />  
+        </tree>
+      </field>
+    </record>
+
+    <!-- form view of patient -->
+    <record id="patient_view_form" model="ir.ui.view">
+      <field name="name">medical.patient.form</field>
+      <field name="model">medical.patient</field>
+      <field name="mode">primary</field>
+      <field name="priority" eval="100" />
+      <field name="arch" type="xml">
+        <form string="Patients">
+            <sheet>
+              <field name="image" widget='image' class="oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
+              <div class="oe_title">
+                <h1>
+                  <field name="name" default_focus="1" placeholder="Name"/>
+                </h1>
+              </div>
+              <group>
+                <field name="function" placeholder="e.g. Sales Director"/>
+                <field name="email" widget="email"/>
+                <field name="phone" widget="phone"/>
+                <field name="mobile" widget="phone"/>
+                <field name="marital_status"/>
+              </group>
+              <notebook colspan="2">
+                <page name="medical" string="Medical" autofocus="True">
+                  <group name="group_medical_buttons" class="oe_button_box" col="6">
+                    <button name="toggle_is_pregnant" type="object" class="oe_stat_button" icon="fa-venus">
+                      <field name="is_pregnant" widget="boolean_button" options='{"terminology": {"string_true": "Pregnant",
+                                                              "string_hover_true": "Switch to Not Pregnant",
+                                                              "string_false": "Not Pregnant",
+                                                              "string_hover_false": "Switch to Pregnant"}}'
+                                              />
+                    </button>
+                  </group>
+                  <group name="group_medical_general" string="General">
+                        <group name="group_medical_general_left">
+                          <field name="identification_code" />
+                          <field name="gender" />
+                        </group>
+                        <group name="group_medical_general_right">
+                          <field name="birthdate_date" />
+                          <field name="date_death" />
+                          <field name="age" />
+                          <label for="weight" />
+                          <div>
+                            <field name='weight' class="oe_inline" />
+                            <field name='weight_uom' class="oe_inline" placeholder="UoM" />
+                          </div>
+                        </group>
+                      </group>
+                    </page>
+                    <page name="others" string="Others Informations">
+                      <group name="group_info_general" string="Infos General">
+                        <field name="general_info" />
+                      </group>
+                    </page>
+                </notebook>
+            </sheet>
+        </form>
+        
+      </field>
+    </record>
+    <!-- kanban view of patient -->
+    <record id="patient_view_kanban" model="ir.ui.view">
+      <field name="name">medical.patient.kanban</field>
+      <field name="model">medical.patient</field>
+      <!-- <field name="inherit_id" ref="base.res_partner_kanban_view" /> -->
+      <field name="mode">primary</field>
+      <field name="priority" eval="100" />
+      <field name="arch" type="xml">
+        <kanban class="o_res_patients_kanban" string="Patients">
+          <field name="id"/>
+          <field name="age"/>
+          <field name="birthdate_date" />
+          <field name="mobile"/>
+          <field name="gender"/>
+          <field name="email"/>
+          <field name="image_medium"/>
+          <templates>
+            <t t-name="kanban-box">
+              <div class="oe_kanban_global_click">
+                <div class="o_kanban_image">
+                  <!-- <img t-att-src="kanban_image('medical.patient', 'image_medium', record.id.raw_value)" /> -->
+
+
+                  <t t-if="record.image_medium.raw_value">
+                    <img t-att-src="kanban_image('medical.patient', 'image_medium', record.id.raw_value)" />
+                  </t>
+                  <t t-if="!record.image_medium.raw_value">
+                    <img name="kanban_image_default_person" t-if="record.is_company.raw_value === false" t-attf-src='{{ _s }}/medical/static/src/img/patient-avatar.png'/>
+                  </t>
+                </div>
+                <div class="oe_kanban_details">
+                  <!-- <strong class="oe_patients_heading">
+                    <field name="name" />
+                  </strong>
+                  <ul name="entity_details">
+                    <li t-if="record.email.value" class="o_text_overflow">
+                      <field name="email" />
+                    </li>
+                    <li name="field_dob" t-if="record.birthdate_date.value">
+                      <strong>Date de Naissance:</strong>
+                      <field name="birthdate_date" />
+                    </li>
+                    <li name="field_age_gender" t-if="record.birthdate_date.value &amp;&amp; record.gender.value">
+                      <field name="age" />-<field name="gender"/>
+                    </li>
+                    <li name="field_gender" t-if="! record.birthdate_date.value &amp;&amp; record.gender.value">
+                      <field name="gender" />
+                    </li>
+                  </ul>
+                  <div class="oe_kanban_patients_links" /> -->
+                </div>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+    <!--  Search view of patient -->
+    <record id="patient_view_search" model="ir.ui.view">
+      <field name="name">medical.patient.search</field>
+      <field name="model">medical.patient</field>
+      <!-- <field name="inherit_id" ref="base.view_res_partner_filter" /> -->
+      <field name="mode">primary</field>
+      <field name="arch" type="xml">
+        <search string="Medical Patients">
+          <field name="name" />
+          <field name="identification_code" />
+          <!-- <field name="partner_id" invisible="1" /> -->
+          <filter string="Deactivated" domain="[('active', '=', 0)]" />
+          <!-- <filter string="Parent" domain="[]" context="{'group_by':'parent_id'}" />
+          <filter string="Number" domain="[('partner_id', 'child_of', partner_id)]" invisible="1" /> -->
+        </search>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="patient_action">
+      <field name="name">Patients</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">medical.patient</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">kanban,tree,form</field>
+    </record>
+    
+    
+    
+   
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="patient.menu_1" parent="patient.menu_root"/>
+    <menuitem name="Menu 2" id="patient.menu_2" parent="patient.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="patient.menu_1_list" parent="patient.menu_1"
+              action="patient.action_window"/>
+    <menuitem name="Server to list" id="patient" parent="patient.menu_2"
+              action="patient.action_server"/>
+    -->
+  </data>
+</odoo>
